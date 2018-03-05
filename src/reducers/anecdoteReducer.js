@@ -29,12 +29,33 @@ export const actionFor = {
       type: 'VOTE',
       id
     }
+  },
+  notify(notification) {
+    return {
+      type: 'NOTIFY',
+      notification
+    }
   }
 }
 
 const initialState = anecdotesAtStart.map(asObject)
 
-const reducer = (store = initialState, action) => {
+// const reducer = (store = initialState, action) => {
+//   if (action.type==='VOTE') {
+//     const old = store.filter(a => a.id !==action.id)
+//     const voted = store.find(a => a.id === action.id)
+
+//     return [...old, { ...voted, votes: voted.votes+1 } ]
+//   }
+//   if (action.type === 'CREATE') {
+
+//     return [...store, { content: action.content, id: getId(), votes:0 }]
+//   }
+
+//   return store
+// }
+
+export const anecdoteReducer = (store = initialState, action) => {
   if (action.type==='VOTE') {
     const old = store.filter(a => a.id !==action.id)
     const voted = store.find(a => a.id === action.id)
@@ -49,4 +70,12 @@ const reducer = (store = initialState, action) => {
   return store
 }
 
-export default reducer
+export const notificationReducer = (state = 'hello', action) => {
+  switch (action.type) {
+  case 'NOTIFY':
+    return action.notification
+  default:
+    return state
+  }
+}
+//export default reducer
