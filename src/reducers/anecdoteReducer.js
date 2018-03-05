@@ -30,30 +30,21 @@ export const actionFor = {
       id
     }
   },
-  notify(notification) {
+  createNotification(id) {
+    console.log('createnotification', id)
     return {
       type: 'NOTIFY',
-      notification
+      id
+    }
+  },
+  removeNotification() {
+    return {
+      type: 'REMOVE'
     }
   }
 }
 
 const initialState = anecdotesAtStart.map(asObject)
-
-// const reducer = (store = initialState, action) => {
-//   if (action.type==='VOTE') {
-//     const old = store.filter(a => a.id !==action.id)
-//     const voted = store.find(a => a.id === action.id)
-
-//     return [...old, { ...voted, votes: voted.votes+1 } ]
-//   }
-//   if (action.type === 'CREATE') {
-
-//     return [...store, { content: action.content, id: getId(), votes:0 }]
-//   }
-
-//   return store
-// }
 
 export const anecdoteReducer = (store = initialState, action) => {
   if (action.type==='VOTE') {
@@ -70,12 +61,36 @@ export const anecdoteReducer = (store = initialState, action) => {
   return store
 }
 
-export const notificationReducer = (state = 'hello', action) => {
-  switch (action.type) {
-  case 'NOTIFY':
-    return action.notification
-  default:
-    return state
+export const notificationReducer = (store = 'Welcome', action) => {
+  if (action.type==='NOTIFY') {
+    //console.log()
+    //const anecdote = store.find(a => a.id === action.id)
+    //console.log(anecdote)
+    return `created anecdote ${action.id}`
   }
+
+  if (action.type==='REMOVE') {
+    const newState = { ...store, notification: null }
+    console.log('asdf')
+    return newState
+  }
+
+  return store
 }
+
+// export const notificationReducer = (state = 'hello', action) => {
+//   switch (action.type) {
+//     case 'NOTIFY':
+//       const voted = store.find(a => a.id === action.id)
+
+//       return action.notification
+//     case 'REMOVE':
+//       const newState = { ...state, notification: null }
+//       console.log('asdf')
+//       return newState
+
+//     default:
+//       return state
+//   }
+// }
 //export default reducer
