@@ -1,5 +1,6 @@
 import React from 'react'
 import { actionFor } from './../reducers/anecdoteReducer'
+import { createNotification } from './../utils/createNotification'
 
 class AnecdoteList extends React.Component {
   clickEvent = (event) => {
@@ -7,18 +8,8 @@ class AnecdoteList extends React.Component {
     let id = event.target.value
     this.props.store.dispatch(actionFor.castVote(id))
     console.log(event.target.id)
-    this.createNotification(id)
+    createNotification(this.props.store, id, actionFor, 'voted anecdote')
   }
-
-  createNotification = (content) => {
-    console.log("hello", content)
-    //setTimeout(function () {
-      this.props.store.dispatch(actionFor.createNotification(content))
-    //}, 5000);
-    //this.props.store.dispatch(actionFor.removeNotification())
-  }
-
-
 
   render() {
     const anecdotes = this.props.store.getState().anecdotes

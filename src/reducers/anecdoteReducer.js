@@ -30,10 +30,11 @@ export const actionFor = {
       id
     }
   },
-  createNotification(id) {
+  createNotification(message, id) {
     console.log('createnotification', id)
     return {
       type: 'NOTIFY',
+      message,
       id
     }
   },
@@ -61,36 +62,14 @@ export const anecdoteReducer = (store = initialState, action) => {
   return store
 }
 
-export const notificationReducer = (store = 'Welcome', action) => {
+export const notificationReducer = (store = null, action) => {
   if (action.type==='NOTIFY') {
-    //console.log()
-    //const anecdote = store.find(a => a.id === action.id)
-    //console.log(anecdote)
-    return `created anecdote ${action.id}`
+    return `${action.message} ${action.id}`
   }
 
   if (action.type==='REMOVE') {
-    const newState = { ...store, notification: null }
-    console.log('asdf')
-    return newState
+    return null
   }
 
   return store
 }
-
-// export const notificationReducer = (state = 'hello', action) => {
-//   switch (action.type) {
-//     case 'NOTIFY':
-//       const voted = store.find(a => a.id === action.id)
-
-//       return action.notification
-//     case 'REMOVE':
-//       const newState = { ...state, notification: null }
-//       console.log('asdf')
-//       return newState
-
-//     default:
-//       return state
-//   }
-// }
-//export default reducer
