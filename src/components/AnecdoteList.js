@@ -1,5 +1,5 @@
 import React from 'react'
-import { actionFor } from './../reducers/anecdoteReducer'
+//import { actionFor } from './../reducers/anecdoteReducer'
 import { createNotification } from './../utils/createNotification'
 
 class AnecdoteList extends React.Component {

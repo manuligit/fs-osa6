@@ -10,7 +10,7 @@ class Notification extends React.Component {
     }
 
     const notification = this.props.notification
-    //console.log(notification)
+    console.log(notification)
     if (notification !== null) {
       return (
         <div style={style}>
@@ -31,6 +31,8 @@ const mapStateToProps = (state) => {
   }
 }
 
+
 const ConnectedNotifications = connect(mapStateToProps)(Notification)
+
 
 export default ConnectedNotifications

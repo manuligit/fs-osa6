@@ -1,11 +1,13 @@
 import React from 'react'
-import { actionFor } from '../reducers/anecdoteReducer'
+import { updateFilter } from '../reducers/filterReducer'
+import { connect } from 'react-redux'
 
 class Filter extends React.Component {
   handleChange = (event) => {
     console.log(event.target.value)
-    this.props.store.dispatch(actionFor.updateFilter(event.target.value))
+    updateFilter(event.target.value)
   }
+
   render() {
     const style = {
       marginBottom: 10
@@ -19,4 +21,8 @@ class Filter extends React.Component {
   }
 }
 
-export default Filter
+const mapDispatchToProps = { updateFilter }
+
+const ConnectedFilter = connect(undefined, mapDispatchToProps)(Filter)
+
+export default ConnectedFilter

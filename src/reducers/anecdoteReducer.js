@@ -17,39 +17,21 @@ const asObject = (anecdote) => {
   }
 }
 
-export const actionFor = {
-  anecdoteCreation (content) {
-    return {
-      type: 'CREATE',
-      content
-    }
-  },
-  castVote(id) {
-    return {
-      type: 'VOTE',
-      id
-    }
-  },
-  createNotification(message, id) {
-    console.log('createnotification', id)
-    return {
-      type: 'NOTIFY',
-      message,
-      id
-    }
-  },
-  removeNotification() {
-    return {
-      type: 'REMOVE'
-    }
-  },
-  updateFilter(filter) {
-    return {
-      type: 'FILTER',
-      filter
-    }
+export const createAnecdote = (content) => {
+  console.log('actionfor createanecdote called')
+  return {
+    type: 'CREATE',
+    content
   }
 }
+
+export const castVote = (id) => {
+  return {
+    type: 'VOTE',
+    id
+  }
+}
+
 
 const initialState = anecdotesAtStart.map(asObject)
 
@@ -61,29 +43,9 @@ export const anecdoteReducer = (store = initialState, action) => {
     return [...old, { ...voted, votes: voted.votes+1 } ]
   }
   if (action.type === 'CREATE') {
-
+    console.log('anecdoterecurer create')
     return [...store, { content: action.content, id: getId(), votes:0 }]
   }
-
-  return store
-}
-
-export const notificationReducer = (store = null, action) => {
-  if (action.type==='NOTIFY') {
-    return `${action.message} ${action.id}`
-  }
-
-  if (action.type==='REMOVE') {
-    return null
-  }
-  return store
-}
-
-export const filterReducer = (store = '', action) => {
-  if (action.type==='FILTER') {
-    console.log('current filter', action.filter)
-    return action.filter
-  }
-
+  console.log('type wrong ')
   return store
 }

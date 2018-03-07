@@ -1,18 +1,23 @@
 import React from 'react'
-import { actionFor } from './../reducers/anecdoteReducer'
-import { createNotification } from './../utils/createNotification'
+import { createAnecdote } from './../reducers/anecdoteReducer'
+import { createNotification, removeNotification } from './../reducers/notificationReducer'
+import { connect } from 'react-redux'
 
 class AnecdoteForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
     let content = e.target.anecdote.value
-    console.log(content)
-    this.props.store.dispatch(
-      actionFor.anecdoteCreation(content)
-    )
+    this.props.createAnecdote(content)
     e.target.anecdote.value = ''
-    const newAnecdote = this.props.store.getState().anecdotes.find(a => a.content === content)
-    createNotification(this.props.store, newAnecdote.id, actionFor, 'created anecdote')
+    const message = 'created anecdote'
+    this.props.createNotification(message, content)
+    
+    setTimeout(function () {
+      //if multiple anecdotes are voted or created, remove only the newest one:
+      if (this.props.notification === `${message} ${content}`) {
+        this.props.removeNotification()
+      }
+    }.bind(this), 5000)
   }
 
   render() {
@@ -28,4 +33,16 @@ class AnecdoteForm extends React.Component {
   }
 }
 
-export default AnecdoteForm
+const mapStateToProps = (state) => {
+  console.log('mapstatetoprops', state)
+  return {
+    anecdotes: state.anecdotes,
+    notification: state.notification
+  }
+}
+
+const mapDispatchToProps = { createAnecdote, createNotification, removeNotification }
+
+const ConnectedFilter = connect(mapStateToProps, mapDispatchToProps)(AnecdoteForm)
+
+export default ConnectedFilter
