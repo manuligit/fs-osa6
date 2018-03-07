@@ -11,7 +11,7 @@ class AnecdoteForm extends React.Component {
     e.target.anecdote.value = ''
     const message = 'created anecdote'
     this.props.createNotification(message, content)
-    
+
     setTimeout(function () {
       //if multiple anecdotes are voted or created, remove only the newest one:
       if (this.props.notification === `${message} ${content}`) {

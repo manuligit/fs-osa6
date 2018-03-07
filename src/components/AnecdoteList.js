@@ -1,18 +1,28 @@
 import React from 'react'
-//import { actionFor } from './../reducers/anecdoteReducer'
-import { createNotification } from './../utils/createNotification'
+import { createNotification, removeNotification } from './../reducers/notificationReducer'
+import { connect } from 'react-redux'
+import { castVote } from './../reducers/anecdoteReducer'
 
 class AnecdoteList extends React.Component {
   clickEvent = (event) => {
     event.preventDefault()
     let id = event.target.value
-    this.props.store.dispatch(actionFor.castVote(id))
-    //console.log(event.target.id)
-    createNotification(this.props.store, id, actionFor, 'voted anecdote')
+    this.props.castVote(id)
+    let anecdote = this.props.anecdotes.find(a => a.id === id)
+    const content = anecdote.content
+    const message = 'voted anecdote'
+    this.props.createNotification(message, content)
+
+    setTimeout(function () {
+      //if multiple anecdotes are voted or created, remove only the newest one:
+      if (this.props.notification === `${message} ${content}`) {
+        this.props.removeNotification()
+      }
+    }.bind(this), 5000)
   }
 
   render() {
-    let { anecdotes, filter } = this.props.store.getState()
+    let { anecdotes, filter } = this.props
     anecdotes = anecdotes.filter(a => a.content.includes(filter))
     //console.log(anecdotes)
     return (
@@ -36,4 +46,17 @@ class AnecdoteList extends React.Component {
   }
 }
 
-export default AnecdoteList
+const mapStateToProps = (state) => {
+  console.log('mapstatetoprops', state)
+  return {
+    anecdotes: state.anecdotes,
+    notification: state.notification,
+    filter: state.filter
+  }
+}
+
+const mapDispatchToProps = { castVote, createNotification, removeNotification }
+
+const ConnectedList = connect(mapStateToProps, mapDispatchToProps)(AnecdoteList)
+
+export default ConnectedList

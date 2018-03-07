@@ -46,6 +46,6 @@ export const anecdoteReducer = (store = initialState, action) => {
     console.log('anecdoterecurer create')
     return [...store, { content: action.content, id: getId(), votes:0 }]
   }
-  console.log('type wrong ')
+  //console.log('type wrong ')
   return store
 }

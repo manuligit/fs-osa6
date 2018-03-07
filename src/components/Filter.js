@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 
 class Filter extends React.Component {
   handleChange = (event) => {
-    console.log(event.target.value)
-    updateFilter(event.target.value)
+    this.props.updateFilter(event.target.value)
   }
 
   render() {
