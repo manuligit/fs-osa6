@@ -44,7 +44,7 @@ class AnecdoteList extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  //console.log('mapstatetoprops', state)
+  console.log('mapstatetoprops', state)
   return {
     anecdotes: state.anecdotes.filter(a => a.content.includes(state.filter)),
     notification: state.notification

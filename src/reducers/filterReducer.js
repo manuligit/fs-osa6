@@ -1,6 +1,6 @@
 export const filterReducer = (store = '', action) => {
   if (action.type==='FILTER') {
-    console.log('current filter', action.filter)
+    //console.log('current filter', action.filter)
     return action.filter
   }
 

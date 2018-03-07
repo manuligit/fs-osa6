@@ -6,13 +6,13 @@ export const createNotification = (message, content) => {
     content
   }
 }
+
 export const removeNotification = () => {
   console.log('actionfor removenotification')
   return {
     type: 'REMOVE'
   }
 }
-
 
 export const notificationReducer = (store = null, action) => {
   if (action.type==='NOTIFY') {

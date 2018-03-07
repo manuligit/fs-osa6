@@ -12,7 +12,7 @@ export const createAnecdote = (content) => {
   console.log('actionfor createanecdote called')
   return {
     type: 'CREATE',
-    content
+    content: content.content
   }
 }
 
