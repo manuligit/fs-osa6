@@ -42,6 +42,12 @@ export const actionFor = {
     return {
       type: 'REMOVE'
     }
+  },
+  updateFilter(filter) {
+    return {
+      type: 'FILTER',
+      filter
+    }
   }
 }
 
@@ -69,6 +75,14 @@ export const notificationReducer = (store = null, action) => {
 
   if (action.type==='REMOVE') {
     return null
+  }
+  return store
+}
+
+export const filterReducer = (store = '', action) => {
+  if (action.type==='FILTER') {
+    console.log('current filter', action.filter)
+    return action.filter
   }
 
   return store

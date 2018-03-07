@@ -7,5 +7,5 @@ export const createNotification = (store, content, actions, message) => {
     if (store.getState().notification === `${message} ${content}`) {
       store.dispatch(actions.removeNotification())
     }
-  }, 5000);
+  }, 5000)
 }

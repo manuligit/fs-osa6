@@ -1,9 +1,10 @@
 import { createStore, combineReducers } from 'redux'
-import { anecdoteReducer, notificationReducer } from './reducers/anecdoteReducer'
+import { anecdoteReducer, notificationReducer, filterReducer } from './reducers/anecdoteReducer'
 
 const reducer = combineReducers({
   anecdotes: anecdoteReducer,
-  notification: notificationReducer
+  notification: notificationReducer,
+  filter: filterReducer
 })
 
 const store = createStore(reducer)

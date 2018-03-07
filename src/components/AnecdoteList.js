@@ -7,13 +7,14 @@ class AnecdoteList extends React.Component {
     event.preventDefault()
     let id = event.target.value
     this.props.store.dispatch(actionFor.castVote(id))
-    console.log(event.target.id)
+    //console.log(event.target.id)
     createNotification(this.props.store, id, actionFor, 'voted anecdote')
   }
 
   render() {
-    const anecdotes = this.props.store.getState().anecdotes
-    console.log(this.props.store.getState())
+    let { anecdotes, filter } = this.props.store.getState()
+    anecdotes = anecdotes.filter(a => a.content.includes(filter))
+    //console.log(anecdotes)
     return (
       <div>
         <h2>Anecdotes</h2>
