@@ -2,13 +2,16 @@ import React from 'react'
 import { createNotification, removeNotification } from './../reducers/notificationReducer'
 import { connect } from 'react-redux'
 import { castVote } from './../reducers/anecdoteReducer'
+import anecdoteService from './../services/anecdotes'
 
 class AnecdoteList extends React.Component {
   clickEvent = (event) => {
     event.preventDefault()
     let id = event.target.value
-    this.props.castVote(id)
     let anecdote = this.props.anecdotes.find(a => a.id === id)
+    const newAnecdote = { ...anecdote, votes: (anecdote.votes + 1) }
+    anecdoteService.update(id, newAnecdote)
+    this.props.castVote(id)
     const content = anecdote.content
     const message = 'voted anecdote'
     this.props.createNotification(message, content)
