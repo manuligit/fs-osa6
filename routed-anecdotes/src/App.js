@@ -1,13 +1,34 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 
-const Menu = () => (
-  <div>    
-    <Link to="/">anecdotes</Link> &nbsp;
-    <Link to="/create">create new</Link>&nbsp;
-    <Link to="/about">about</Link>&nbsp;
-  </div>
-)
+const Menu = () => {
+
+  const activeStyle = {
+    backgroundColor: 'hotpink',
+    color: 'white',
+    fontSize: 16,
+    padding: '10px',
+    margin: '5px',
+    textDecoration: 'none'
+  }
+
+  const menuStyle = {
+    backgroundColor: 'pink',
+    color: 'purple',
+    fontSize: 16,
+    padding: '10px',
+    margin: '5px',
+    textDecoration: 'none'
+  }
+
+  return (
+    <div style={menuStyle}>    
+      <NavLink exact to="/" style={menuStyle} activeStyle={activeStyle} >anecdotes</NavLink> &nbsp;
+      <NavLink exact to="/create" style={menuStyle} activeStyle={activeStyle} >create new</NavLink>&nbsp;
+      <NavLink exact to="/about" style={menuStyle} activeStyle={activeStyle} >about</NavLink>&nbsp;
+    </div>
+  )
+}
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
@@ -15,7 +36,7 @@ const AnecdoteList = ({ anecdotes }) => (
     <ul>
       {anecdotes.map(anecdote => 
       <li key={anecdote.id} >
-        <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+        <NavLink to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</NavLink>
       </li>)}
     </ul>  
   </div>
