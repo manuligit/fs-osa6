@@ -21,6 +21,11 @@ const AnecdoteList = ({ anecdotes }) => (
   </div>
 )
 
+const Notification = ({ message }) => (
+  <div> {message} </div>
+)
+
+
 const About = () => (
   <div>
     <h2>About anecdote app</h2>
@@ -131,7 +136,11 @@ class App extends React.Component {
 
   addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
-    this.setState({ anecdotes: this.state.anecdotes.concat(anecdote) })
+    this.setState({ anecdotes: this.state.anecdotes.concat(anecdote), notification: `created anecdote ${anecdote.content}` })
+    
+    setTimeout(() => {
+      this.setState({ notification: '' })
+    }, 10000)
   }
 
   anecdoteById = (id) =>
@@ -147,7 +156,11 @@ class App extends React.Component {
 
     const anecdotes = this.state.anecdotes.map(a => a.id === id ? voted : a)
 
-    this.setState({ anecdotes })
+    this.setState({ anecdotes, notification: `voted anecdote ${anecdote.content}` })
+    
+    setTimeout(() => {
+      this.setState({ notification: '' })
+    }, 2000)
   }
 
   render() {
@@ -157,12 +170,13 @@ class App extends React.Component {
           <div>
             <h1>Software anecdotes</h1>
               <Menu />
+              <Notification message={this.state.notification} />
               <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes} />} />
               <Route exact path="/create" render={({history}) => <CreateNew addNew={this.addNew} history={history}/>} />
               <Route exact path="/about" render={() => <About />} />
               <Route exact path="/anecdotes/:id" render={({match}) => <Anecdote anecdote={this.anecdoteById(match.params.id)}/>} />
               
-            <Footer />
+              <Footer />
           </div>
         </Router>
       </div>
