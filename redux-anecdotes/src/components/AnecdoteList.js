@@ -1,5 +1,5 @@
 import React from 'react'
-import { createNotification, removeNotification } from './../reducers/notificationReducer'
+import { notifyId } from './../reducers/notificationReducer'
 import { connect } from 'react-redux'
 import { castVote } from './../reducers/anecdoteReducer'
 
@@ -8,16 +8,7 @@ class AnecdoteList extends React.Component {
     event.preventDefault()
     let id = event.target.value
     this.props.castVote(id)
-    //const content = anecdote.content
-    //const message = 'voted anecdote'
-    //this.props.createNotification(message, content)
-
-    //setTimeout(function () {
-      //if multiple anecdotes are voted or created, remove only the newest one:
-      //if (this.props.notification === `${message} ${content}`) {
-        //this.props.removeNotification()
-      //}
-    //}.bind(this), 5000)
+    this.props.notifyId('voted anecdote', id, 5)
   }
 
   render() {
@@ -50,7 +41,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = { castVote, createNotification, removeNotification }
+const mapDispatchToProps = { castVote, notifyId }
 
 const ConnectedList = connect(mapStateToProps, mapDispatchToProps)(AnecdoteList)
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { createAnecdote } from './../reducers/anecdoteReducer'
-import { createNotification, removeNotification } from './../reducers/notificationReducer'
+import { notify } from './../reducers/notificationReducer'
 import { connect } from 'react-redux'
 
 class AnecdoteForm extends React.Component {
@@ -10,14 +10,7 @@ class AnecdoteForm extends React.Component {
     e.target.anecdote.value = ''
     this.props.createAnecdote(content)
     const message = 'created anecdote'
-    this.props.createNotification(message, content)
-
-    setTimeout(function () {
-      //if multiple anecdotes are voted or created, remove only the newest one:
-      if (this.props.notification === `${message} ${content}`) {
-        this.props.removeNotification()
-      }
-    }.bind(this), 5000)
+    this.props.notify(message, content, 5)
   }
 
   render() {
@@ -41,7 +34,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = { createAnecdote, createNotification, removeNotification }
+const mapDispatchToProps = { createAnecdote, notify }
 
 const ConnectedFilter = connect(mapStateToProps, mapDispatchToProps)(AnecdoteForm)
 
