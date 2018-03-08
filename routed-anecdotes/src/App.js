@@ -21,10 +21,29 @@ const AnecdoteList = ({ anecdotes }) => (
   </div>
 )
 
-const Notification = ({ message }) => (
-  <div> {message} </div>
-)
+const Notification = ({ message }) => {
+  const notificationStyle = {
+    color: 'green',
+    fontSize: 16,
+    border: '1px solid green',
+    borderRadius: '5px',
+    padding: '10px',
+    margin: '5px'
+  }
 
+  let hidden = {
+    display: 'none'
+  }
+  if (message.length > 1) { 
+    return (
+      <div style={notificationStyle}> {message} </div> 
+    )
+  } else {
+    return (
+      <div style={hidden}></div>
+    )
+  }
+}
 
 const About = () => (
   <div>
