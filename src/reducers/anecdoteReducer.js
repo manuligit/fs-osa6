@@ -1,12 +1,4 @@
-const getId = () => (100000*Math.random()).toFixed(0)
-
-// const asObject = (anecdote) => {
-//   return {
-//     content: anecdote,
-//     id: getId(),
-//     votes: 0
-//   }
-// }
+import anecdoteService from './../services/anecdotes'
 
 export const createAnecdote = (content) => {
   console.log('actionfor createanecdote called')
@@ -23,13 +15,15 @@ export const castVote = (id) => {
   }
 }
 
-export const initializeAnecdotes = (data) => {
-  return {
-    type: 'INIT',
-    data
+export const initializeAnecdotes = () => {
+  return async (dispatch) => {
+    const anecdotes = await anecdoteService.getAll()
+    dispatch({
+      type: 'INIT',
+      data: anecdotes
+    })
   }
 }
-
 export const anecdoteReducer = (store = [], action) => {
   if (action.type==='VOTE') {
     const old = store.filter(a => a.id !==action.id)
@@ -39,11 +33,10 @@ export const anecdoteReducer = (store = [], action) => {
   }
   if (action.type === 'CREATE') {
     console.log('anecdoterecurer create')
-    return [...store, { content: action.content, id: getId(), votes:0 }]
+    return [...store, { content: action.content, votes:0 }]
   }
   if (action.type === 'INIT') {
     return action.data
   }
-  //console.log('type wrong ')
   return store
 }
