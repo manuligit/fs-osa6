@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
+import { Container, Table } from 'semantic-ui-react'
 
 const Menu = () => {
 
@@ -17,7 +18,7 @@ const Menu = () => {
     color: 'purple',
     fontSize: 16,
     padding: '10px',
-    margin: '5px',
+    margin: '15px',
     textDecoration: 'none'
   }
 
@@ -33,12 +34,16 @@ const Menu = () => {
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
-    <ul>
-      {anecdotes.map(anecdote => 
-      <li key={anecdote.id} >
-        <NavLink to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</NavLink>
-      </li>)}
-    </ul>  
+    <Table className='ui pink striped celled'>
+      <Table.Body>
+        {anecdotes.map(anecdote => 
+        <Table.Row key={anecdote.id} >
+          <Table.Cell>
+            <NavLink to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</NavLink>
+          </Table.Cell>
+        </Table.Row>)}
+      </Table.Body>
+    </Table>
   </div>
 )
 
@@ -81,7 +86,7 @@ const About = () => (
 )
 
 const Footer = () => (
-  <div>
+  <div style={{margin: '15px'}}>
     Anecdote app for <a href='https://courses.helsinki.fi/fi/TKT21009/121540749'>Full Stack -sovelluskehitys</a>.
 
     See <a href='https://github.com/mluukkai/routed-anecdotes'>https://github.com/mluukkai/routed-anecdotes</a> for the source code. 
@@ -205,21 +210,23 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <Router>
-          <div>
-            <h1>Software anecdotes</h1>
-              <Menu />
-              <Notification message={this.state.notification} />
-              <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes} />} />
-              <Route exact path="/create" render={({history}) => <CreateNew addNew={this.addNew} history={history}/>} />
-              <Route exact path="/about" render={() => <About />} />
-              <Route exact path="/anecdotes/:id" render={({match}) => <Anecdote anecdote={this.anecdoteById(match.params.id)}/>} />
-              
-              <Footer />
-          </div>
-        </Router>
-      </div>
+      <Container>
+        <div>
+          <Router>
+            <div>
+              <h1>Software anecdotes</h1>
+                <Menu />
+                <Notification message={this.state.notification} />
+                <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes} />} />
+                <Route exact path="/create" render={({history}) => <CreateNew addNew={this.addNew} history={history}/>} />
+                <Route exact path="/about" render={() => <About />} />
+                <Route exact path="/anecdotes/:id" render={({match}) => <Anecdote anecdote={this.anecdoteById(match.params.id)}/>} />
+                
+                <Footer />
+            </div>
+          </Router>
+        </div>
+      </Container>
     );
   }
 }
