@@ -1,33 +1,20 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
-import { Container, Table, Grid } from 'semantic-ui-react'
+import { Container, Table, Grid, Form, Button, Message, Menu } from 'semantic-ui-react'
 
-const Menu = () => {
-
-  const activeStyle = {
-    backgroundColor: 'hotpink',
-    color: 'white',
-    fontSize: 16,
-    padding: '10px',
-    margin: '5px',
-    textDecoration: 'none'
-  }
-
-  const menuStyle = {
-    backgroundColor: 'pink',
-    color: 'purple',
-    fontSize: 16,
-    padding: '10px',
-    margin: '15px',
-    textDecoration: 'none'
-  }
-
+const MenuComponent = () => {
   return (
-    <div style={menuStyle}>    
-      <NavLink exact to="/" style={menuStyle} activeStyle={activeStyle} >anecdotes</NavLink> &nbsp;
-      <NavLink exact to="/create" style={menuStyle} activeStyle={activeStyle} >create new</NavLink>&nbsp;
-      <NavLink exact to="/about" style={menuStyle} activeStyle={activeStyle} >about</NavLink>&nbsp;
-    </div>
+    <Menu className='inverted ui pink'>
+      <Menu.Item link>
+        <NavLink exact to="/">anecdotes</NavLink> 
+      </Menu.Item>
+      <Menu.Item link>
+        <NavLink exact to="/create">create new</NavLink>
+      </Menu.Item>
+      <Menu.Item link>
+        <NavLink exact to="/about">about</NavLink>
+      </Menu.Item>
+    </Menu>
   )
 }
 
@@ -48,25 +35,13 @@ const AnecdoteList = ({ anecdotes }) => (
 )
 
 const Notification = ({ message }) => {
-  const notificationStyle = {
-    color: 'green',
-    fontSize: 16,
-    border: '1px solid green',
-    borderRadius: '5px',
-    padding: '10px',
-    margin: '5px'
-  }
-
-  let hidden = {
-    display: 'none'
-  }
   if (message.length > 1) { 
     return (
-      <div style={notificationStyle}> {message} </div> 
+      <Message success> {message} </Message> 
     )
   } else {
     return (
-      <div style={hidden}></div>
+      <div style={{display: 'none'}}></div>
     )
   }
 }
@@ -88,7 +63,7 @@ const About = () => (
           <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
         </Grid.Column>
         <Grid.Column className='five wide column'>
-          <img src='https://i.imgur.com/JZTwu0q.jpg' className='ui image'/>
+          <img src='https://i.imgur.com/JZTwu0q.jpg' className='ui image' alt="Djikstra"/>
         </Grid.Column>
       </Grid.Row>
     </Grid>
@@ -96,19 +71,23 @@ const About = () => (
 )
 
 const Footer = () => (
-  <div style={{margin: '15px'}}>
-    Anecdote app for <a href='https://courses.helsinki.fi/fi/TKT21009/121540749'>Full Stack -sovelluskehitys</a>.
+  //div className="ui pink inverted segment">
+  <div className="ui pink segment">
+    <div style={{margin: '15px'}}>
+      Anecdote app for <a href='https://courses.helsinki.fi/fi/TKT21009/121540749'>Full Stack -sovelluskehitys</a>.
 
-    See <a href='https://github.com/mluukkai/routed-anecdotes'>https://github.com/mluukkai/routed-anecdotes</a> for the source code. 
+      See <a href='https://github.com/mluukkai/routed-anecdotes'>https://github.com/mluukkai/routed-anecdotes</a> for the source code. 
+    </div>
   </div>
 )
 
 const Anecdote = ({ anecdote }) => {
   return (
-    <div> 
-      <h2>{anecdote.content} by {anecdote.author}</h2>
-      <div>has {anecdote.votes} votes </div>
-      <div>for more info see <a href={anecdote.info}>{anecdote.info}</a> </div>
+    <div className="ui justified container"> 
+      <h2 className='ui header'><i>{anecdote.content}</i> by {anecdote.author}</h2>
+      <div className="ui divider"></div>
+      <p>has {anecdote.votes} votes </p>
+      <p>for more info see <a href={anecdote.info}>{anecdote.info}</a> </p>
     </div>
   )
 } 
@@ -142,22 +121,22 @@ class CreateNew extends React.Component {
   render() {
     return(
       <div>
-        <h2>create a new anecdote</h2>
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            content 
+        <h2>Create a new anecdote</h2>
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Field>
+            <label>content</label>
             <input name='content' value={this.state.content} onChange={this.handleChange} />
-          </div>
-          <div>
-            author
+          </Form.Field>
+          <Form.Field>
+            <label>author</label>
             <input name='author' value={this.state.author} onChange={this.handleChange} />
-          </div>
-          <div>
-            url for more info
+          </Form.Field>
+          <Form.Field>
+            <label>url for more info</label>
             <input name='info' value={this.state.info} onChange={this.handleChange} />
-          </div> 
-          <button>create</button>
-        </form>
+          </Form.Field>
+          <Button>create</Button>
+        </Form>
       </div>  
     )
 
@@ -224,15 +203,16 @@ class App extends React.Component {
         <div>
           <Router>
             <div>
-              <h1>Software anecdotes</h1>
-                <Menu />
-                <Notification message={this.state.notification} />
-                <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes} />} />
-                <Route exact path="/create" render={({history}) => <CreateNew addNew={this.addNew} history={history}/>} />
-                <Route exact path="/about" render={() => <About />} />
-                <Route exact path="/anecdotes/:id" render={({match}) => <Anecdote anecdote={this.anecdoteById(match.params.id)}/>} />
-                
-                <Footer />
+              <h1 className="ui pink header">Software anecdotes</h1>
+              <MenuComponent />
+                <div className="ui segment">
+                  <Notification message={this.state.notification} />
+                  <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes} />} />
+                  <Route exact path="/create" render={({history}) => <CreateNew addNew={this.addNew} history={history}/>} />
+                  <Route exact path="/about" render={() => <About />} />
+                  <Route exact path="/anecdotes/:id" render={({match}) => <Anecdote anecdote={this.anecdoteById(match.params.id)}/>} />
+                </div>
+              <Footer />
             </div>
           </Router>
         </div>
